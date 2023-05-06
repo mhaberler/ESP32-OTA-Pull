@@ -84,7 +84,9 @@ foreach (glob($pattern, GLOB_ONLYDIR) as $board) {
         $fileDate = date(DATE_RFC2822, filectime($filename));   
         $version = getVersion($fn);
         $dir = basename($board);
-        $url = DOWNLOAD . $base . "/" . $board . "/" . $fn;
+        $turl = DOWNLOAD . $base . "/" . $board . "/" . $fn;
+        $url = str_replace(' ', '%20', $turl);
+
         $json_array[] = array(
             'Application' => $application,
             'Board' => $board,
@@ -101,7 +103,9 @@ foreach (glob($pattern, GLOB_ONLYDIR) as $board) {
             foreach (glob($board . "/" . $macaddr . "/*.bin") as $filename) {
                 $fn = basename($filename);
                 $fileDate = date(DATE_RFC2822, filectime($filename));   
-                $url = DOWNLOAD . $base . "/" . $board . "/" . $macaddr . "/" . $fn;
+                $turl = DOWNLOAD . $base . "/" . $board . "/" . $macaddr . "/" . $fn;
+                $url = str_replace(' ', '%20', $turl);
+
                 $json_array[] = array(
                     'Application' => $application,
                     'Device' => $macaddr,
