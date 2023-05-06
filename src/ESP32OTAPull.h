@@ -50,7 +50,7 @@ public:
 private:
   void (*Callback)(int offset, int totallength) = NULL;
   ActionType Action = UPDATE_AND_BOOT;
-  String Board = ARDUINO_BOARD;
+  String Board = OTA_PULL_BOARD;
   String Device = "";
   String Config = "";
   String CVersion = "";
@@ -141,7 +141,7 @@ public:
     return *this;
   }
 
-  /// @brief Override the default "Board" value of ARDUINO_BOARD
+  /// @brief Override the default "Board" value of OTA_PULL_BOARD
   /// @param board A string identifying the board (class) being targeted
   /// @return The current ESP32OTAPull object for chaining
   ESP32OTAPull &OverrideBoard(const char *board) {
@@ -199,7 +199,7 @@ public:
       return JSON_PROBLEM;
 
     String DeviceName = Device.isEmpty() ? WiFi.macAddress() : Device;
-    String BoardName = Board.isEmpty() ? ARDUINO_BOARD : Board;
+    String BoardName = Board.isEmpty() ? OTA_PULL_BOARD : Board;
     String ConfigName = Config.isEmpty() ? "" : Config;
     bool foundProfile = false;
 
@@ -218,12 +218,13 @@ public:
           (CConfig.isEmpty() || CConfig == ConfigName)) {
         Serial.printf(
             "testing: Board='%s' Device='%s' Version='%s' Config='%s'\n",
-            CBoard.c_str(), CDevice.c_str(), CVersion.c_str(),
-            CConfig.c_str());
+            CBoard.c_str(), CDevice.c_str(), CVersion.c_str(), CConfig.c_str());
 
         if (CVersion.isEmpty() || CVersion > String(CurrentVersion) ||
             (DowngradesAllowed && CVersion != String(CurrentVersion))) {
-          Serial.printf("match!\n");
+          const char* URL =
+              config["URL"].isNull() ? "" : (const char *)config["URL"];
+          Serial.printf("match! URL='%s'\n", URL);
           return Action == DONT_DO_UPDATE ? UPDATE_AVAILABLE
                                           : DoOTAUpdate(config["URL"], Action);
         }

@@ -54,7 +54,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 function getVersion($str)
 {
-    preg_match("/((?:[0-9]+\.[0-9]+\.[0-9]+?)+)/i", $str, $matches);
+    preg_match("/((?:[0-9]+\.[0-9]+\.[0-9]+)+)/i", $str, $matches);
     if (sizeof($matches, 0)) {
         return $matches[1];
     }

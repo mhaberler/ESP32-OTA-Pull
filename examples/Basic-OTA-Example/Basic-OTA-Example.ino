@@ -34,7 +34,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 // Now create a text file called "Basic-OTA-Example.json" that describes the image you are going to post.  Example below.
-// * The "Board" line, if provided, should match the ARDUINO_BOARD string that is predefined for the board you selected
+// * The "Board" line, if provided, should match the OTA_PULL_BOARD string that is predefined for the board you selected
 // * If you include a "Device" line, the update will only match the single device that matches the provided MAC address.
 //   Omit it if you want to update ALL devices.
 // * The "Version" line should describe the posted image's version.  Update will only occur if it is different than VERSION.
@@ -86,7 +86,7 @@ void setup()
 	ESP32OTAPull ota;
 
 	ota.SetCallback(callback);
-	Serial.printf("We are running version %s of the sketch, Board='%s', Device='%s'.\n", VERSION, ARDUINO_BOARD, WiFi.macAddress().c_str());
+	Serial.printf("We are running version %s of the sketch, Board='%s', Device='%s'.\n", VERSION, OTA_PULL_BOARD, WiFi.macAddress().c_str());
 	Serial.printf("Checking %s to see if an update is available...\n", JSON_URL);
 	int ret = ota.CheckForOTAUpdate(JSON_URL, VERSION);
 	Serial.printf("CheckForOTAUpdate returned %d (%s)\n\n", ret, errtext(ret));
@@ -136,14 +136,14 @@ const char *errtext(int code)
 void DisplayInfo()
 {
 	char exampleImageURL[256];
-	snprintf(exampleImageURL, sizeof(exampleImageURL), "https://example.com/Basic-OTA-Example-%s-%s.bin", ARDUINO_BOARD, VERSION);
+	snprintf(exampleImageURL, sizeof(exampleImageURL), "https://example.com/Basic-OTA-Example-%s-%s.bin", OTA_PULL_BOARD, VERSION);
 
 	Serial.printf("Basic-OTA-Example v%s\n", VERSION);
 	Serial.printf("You need to post a JSON (text) file similar to this:\n");
 	Serial.printf("{\n");
 	Serial.printf("  \"Configurations\": [\n");
 	Serial.printf("    {\n");
-	Serial.printf("      \"Board\": \"%s\",\n", ARDUINO_BOARD);
+	Serial.printf("      \"Board\": \"%s\",\n", OTA_PULL_BOARD);
 	Serial.printf("      \"Device\": \"%s\",\n", WiFi.macAddress().c_str());
 	Serial.printf("      \"Version\": %s,\n", VERSION);
 	Serial.printf("      \"URL\": \"%s\"\n", exampleImageURL);
