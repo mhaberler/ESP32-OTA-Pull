@@ -217,7 +217,7 @@ public:
           (CDevice.isEmpty() || CDevice == DeviceName) &&
           (CConfig.isEmpty() || CConfig == ConfigName)) {
         Serial.printf(
-            "testing: Board='%s' Device='%s' Version='%s' Version='%s'\n",
+            "testing: Board='%s' Device='%s' Version='%s' Config='%s'\n",
             CBoard.c_str(), CDevice.c_str(), CVersion.c_str(),
             CConfig.c_str());
 
