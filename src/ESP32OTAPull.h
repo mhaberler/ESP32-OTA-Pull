@@ -184,13 +184,13 @@ public:
     /// @param CurrentVersion The version # of the current (i.e. to be replaced) sketch
     /// @param ActionType The action to be performed.  May be any of DONT_DO_UPDATE, UPDATE_BUT_NO_BOOT, UPDATE_AND_BOOT (default)
     /// @return ErrorCode or HTTP failure code (see enum above)
-    int CheckForOTAUpdate(const char* JSON_URL, const char *CurrentVersion, ActionType Action = UPDATE_AND_BOOT)
+    int CheckForOTAUpdate(const char* url, const char *CurrentVersion, ActionType Action = UPDATE_AND_BOOT)
     {
         CurrentVersion = CurrentVersion == NULL ? "" : CurrentVersion;
 
         // Downloading OTA Json...
         String Payload;
-        int httpResponseCode = DownloadJson(JSON_URL, Payload);
+        int httpResponseCode = DownloadJson(url, Payload);
         if (httpResponseCode != 200)
             return httpResponseCode > 0 ? httpResponseCode : HTTP_FAILED;
 
